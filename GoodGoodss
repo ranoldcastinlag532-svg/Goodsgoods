@@ -1,0 +1,1729 @@
+PROTOTYPE 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Goods | Premium Motorcycle Inventory</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff3e3e;
+            --primary-glow: rgba(255, 62, 62, 0.4);
+            --secondary: #00d4ff;
+            --accent: #ffd700;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --card: #111111;
+            --card-hover: #1a1a1a;
+            --text: #ffffff;
+            --text-muted: #888888;
+            --border: #222222;
+            --success: #00ff88;
+            --warning: #ffaa00;
+            --danger: #ff3333;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--darker);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(255, 62, 62, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
+        }
+
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--darker);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .login-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .login-container {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 60px 50px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: var(--primary);
+            -webkit-text-fill-color: var(--primary);
+        }
+
+        .tagline {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-wrapper input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .input-wrapper input:focus + i {
+            color: var(--primary);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--primary) 0%, #ff6b6b 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--primary-glow);
+        }
+
+        .error-msg {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .error-msg.show {
+            opacity: 1;
+        }
+
+        /* Main App */
+        .app-container {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .app-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            background: rgba(17, 17, 17, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .header-logo span {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .user-badge {
+            background: var(--card);
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        .user-badge i {
+            color: var(--secondary);
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+        }
+
+        .logout-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        /* Dashboard Stats */
+        .dashboard {
+            padding: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(255, 62, 62, 0.1);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary);
+        }
+
+        .stat-card.warning::before { background: var(--warning); }
+        .stat-card.success::before { background: var(--success); }
+        .stat-card.info::before { background: var(--secondary); }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .stat-card.warning .stat-icon { color: var(--warning); }
+        .stat-card.success .stat-icon { color: var(--success); }
+        .stat-card.info .stat-icon { color: var(--secondary); }
+
+        /* Alert Banner */
+        .alert-banner {
+            background: linear-gradient(135deg, rgba(255, 170, 0, 0.1) 0%, rgba(255, 170, 0, 0.05) 100%);
+            border: 1px solid var(--warning);
+            border-radius: 10px;
+            padding: 20px 30px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 170, 0, 0.2); }
+            50% { box-shadow: 0 0 20px 5px rgba(255, 170, 0, 0.1); }
+        }
+
+        .alert-banner i {
+            font-size: 2rem;
+            color: var(--warning);
+        }
+
+        .alert-content h3 {
+            color: var(--warning);
+            margin-bottom: 5px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .alert-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-tab:hover {
+            border-color: var(--primary);
+            color: var(--text);
+        }
+
+        .nav-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 5px 20px var(--primary-glow);
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Action Bar */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px 15px 50px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #ff6b6b 100%);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px var(--primary-glow);
+        }
+
+        /* Inventory Grid */
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .bike-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .bike-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .bike-header {
+            background: linear-gradient(135deg, var(--card) 0%, var(--dark) 100%);
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+
+        .bike-plate {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+
+        .bike-model {
+            font-size: 1.1rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .bike-year {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-available {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .status-sold {
+            background: rgba(255, 62, 62, 0.15);
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .status-delivered {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .bike-body {
+            padding: 25px;
+        }
+
+        .bike-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .doc-status {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+        }
+
+        .doc-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            padding: 8px 12px;
+            background: var(--dark);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .doc-indicator.ok {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .doc-indicator.pending {
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .doc-indicator.missing {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .bike-actions {
+            display: flex;
+            gap: 10px;
+            padding: 0 25px 25px;
+        }
+
+        .btn-small {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid var(--border);
+            background: var(--dark);
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-small:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--card) 0%, var(--dark) 100%);
+            padding: 30px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--primary);
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .file-upload {
+            border: 2px dashed var(--border);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: var(--secondary);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .file-upload i {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 10px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--dark);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-group:hover {
+            border-color: var(--primary);
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+        }
+
+        /* Financial Section */
+        .financial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .financial-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .financial-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .financial-amount.profit {
+            color: var(--success);
+        }
+
+        .financial-amount.loss {
+            color: var(--danger);
+        }
+
+        /* Table Styles */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .data-table th {
+            background: var(--dark);
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard {
+                padding: 20px;
+            }
+
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .inventory-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 10px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Login Screen -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-container">
+            <div class="logo">GOOD<span>GOODS</span></div>
+            <div class="tagline">Premium Motorcycle Inventory</div>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Username</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" placeholder="Enter username" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" placeholder="Enter password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-sign-in-alt"></i> Access System
+                </button>
+            </form>
+            
+            <div class="error-msg" id="errorMsg">
+                <i class="fas fa-exclamation-circle"></i> Invalid credentials
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div class="app-container" id="appContainer">
+        <header class="header">
+            <div class="header-logo">GOOD<span>GOODS</span></div>
+            <div class="header-actions">
+                <div class="user-badge">
+                    <i class="fas fa-user-shield"></i>
+                    <span id="currentUser">Admin</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fas fa-motorcycle"></i></div>
+                    <div class="stat-value" id="totalBikes">0</div>
+                    <div class="stat-label">Total Units</div>
+                </div>
+                <div class="stat-card success">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-value" id="availableBikes">0</div>
+                    <div class="stat-label">Available</div>
+                </div>
+                <div class="stat-card info">
+                    <div class="stat-icon"><i class="fas fa-handshake"></i></div>
+                    <div class="stat-value" id="soldBikes">0</div>
+                    <div class="stat-label">Sold</div>
+                </div>
+                <div class="stat-card warning">
+                    <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="stat-value" id="pendingDocs">0</div>
+                    <div class="stat-label">Pending Docs</div>
+                </div>
+            </div>
+
+            <!-- Alert Banner -->
+            <div class="alert-banner" id="alertBanner" style="display: none;">
+                <i class="fas fa-bell"></i>
+                <div class="alert-content">
+                    <h3>Action Required</h3>
+                    <p><span id="urgentCount">0</span> sold units are waiting for original OR/CR documents</p>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <div class="nav-tabs">
+                <button class="nav-tab active" onclick="showSection('inventory')">
+                    <i class="fas fa-th-large"></i> Inventory
+                </button>
+                <button class="nav-tab" onclick="showSection('documents')">
+                    <i class="fas fa-file-alt"></i> Documents
+                </button>
+                <button class="nav-tab" onclick="showSection('repairs')">
+                    <i class="fas fa-wrench"></i> Repairs
+                </button>
+                <button class="nav-tab" onclick="showSection('financial')">
+                    <i class="fas fa-chart-line"></i> Financial
+                </button>
+            </div>
+
+            <!-- Inventory Section -->
+            <section class="content-section active" id="inventorySection">
+                <div class="action-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Search by plate, model, or buyer..." onkeyup="searchBikes()">
+                    </div>
+                    <button class="btn-primary" onclick="openModal('addBikeModal')">
+                        <i class="fas fa-plus"></i> Add Motorcycle
+                    </button>
+                </div>
+                <div class="inventory-grid" id="inventoryGrid">
+                    <!-- Bike cards will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Documents Section -->
+            <section class="content-section" id="documentsSection">
+                <div class="action-bar">
+                    <h2 style="font-family: 'Orbitron', sans-serif; color: var(--accent);">
+                        <i class="fas fa-folder-open"></i> Document Tracking
+                    </h2>
+                </div>
+                <div class="inventory-grid" id="documentsGrid">
+                    <!-- Document tracking cards -->
+                </div>
+            </section>
+
+            <!-- Repairs Section -->
+            <section class="content-section" id="repairsSection">
+                <div class="action-bar">
+                    <h2 style="font-family: 'Orbitron', sans-serif; color: var(--secondary);">
+                        <i class="fas fa-tools"></i> Repair History
+                    </h2>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Plate</th>
+                            <th>Description</th>
+                            <th>Cost</th>
+                            <th>Shop</th>
+                        </tr>
+                    </thead>
+                    <tbody id="repairsTable">
+                        <!-- Repairs will be inserted here -->
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Financial Section -->
+            <section class="content-section" id="financialSection">
+                <div class="financial-grid">
+                    <div class="financial-card">
+                        <i class="fas fa-wallet" style="font-size: 2rem; color: var(--secondary);"></i>
+                        <div class="financial-amount" id="totalInvestment">₱0</div>
+                        <div class="stat-label">Total Investment</div>
+                    </div>
+                    <div class="financial-card">
+                        <i class="fas fa-money-bill-wave" style="font-size: 2rem; color: var(--primary);"></i>
+                        <div class="financial-amount" id="totalSales">₱0</div>
+                        <div class="stat-label">Total Sales</div>
+                    </div>
+                    <div class="financial-card">
+                        <i class="fas fa-chart-pie" style="font-size: 2rem; color: var(--success);"></i>
+                        <div class="financial-amount profit" id="totalProfit">₱0</div>
+                        <div class="stat-label">Net Profit</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Bike Modal -->
+    <div class="modal-overlay" id="addBikeModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title"><i class="fas fa-motorcycle"></i> Add New Motorcycle</h2>
+                <button class="modal-close" onclick="closeModal('addBikeModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addBikeForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Brand</label>
+                            <input type="text" name="brand" placeholder="e.g., Honda" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Model</label>
+                            <input type="text" name="model" placeholder="e.g., Click 125" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Year</label>
+                            <input type="number" name="year" placeholder="2024" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Color</label>
+                            <input type="text" name="color" placeholder="Black" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Plate Number</label>
+                            <input type="text" name="plate" placeholder="ABC 1234" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Engine Number</label>
+                            <input type="text" name="engine" placeholder="Engine #" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Chassis Number</label>
+                        <input type="text" name="chassis" placeholder="Chassis #" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Purchase Date</label>
+                            <input type="date" name="purchase_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Purchase Price (₱)</label>
+                            <input type="number" name="purchase_price" placeholder="0.00" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Source</label>
+                        <input type="text" name="source" placeholder="Bank name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-group">
+                            <input type="checkbox" name="has_xerox">
+                            <span>Have Xerox Copy of Documents</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="file-upload" onclick="document.getElementById('xeroxFile').click()">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Upload Xerox Copy</p>
+                            <small style="color: var(--text-muted);">Click to browse files</small>
+                        </div>
+                        <input type="file" id="xeroxFile" hidden accept="image/*,.pdf">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-group">
+                            <input type="checkbox" name="original_received">
+                            <span>Original OR/CR Received</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%;">
+                        <i class="fas fa-save"></i> Save Motorcycle
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sell Bike Modal -->
+    <div class="modal-overlay" id="sellBikeModal">
+        <div class="modal">
+            <div class="modal-header" style="background: linear-gradient(135deg, var(--primary) 0%, #ff6b6b 100%);">
+                <h2 class="modal-title"><i class="fas fa-handshake"></i> Sell Motorcycle</h2>
+                <button class="modal-close" onclick="closeModal('sellBikeModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="sellBikeForm">
+                    <input type="hidden" name="bike_id" id="sellBikeId">
+                    
+                    <div class="form-group">
+                        <label>Buyer Name *</label>
+                        <input type="text" name="buyer_name" placeholder="Full name" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Contact Number</label>
+                            <input type="text" name="buyer_contact" placeholder="Phone number">
+                        </div>
+                        <div class="form-group">
+                            <label>Sale Price (₱)</label>
+                            <input type="number" name="sale_price" placeholder="0.00" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Address</label>
+                        <textarea name="buyer_address" rows="3" placeholder="Complete address"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sale Date</label>
+                        <input type="date" name="sale_date" required>
+                    </div>
+
+                    <div style="background: rgba(255, 170, 0, 0.1); border: 1px solid var(--warning); border-radius: 10px; padding: 20px; margin-bottom: 25px;">
+                        <h4 style="color: var(--warning); margin-bottom: 10px;">
+                            <i class="fas fa-exclamation-triangle"></i> Required Documents
+                        </h4>
+                        <ul style="color: var(--text-muted); padding-left: 20px; line-height: 1.8;">
+                            <li>Xerox copy of OR/CR (Required)</li>
+                            <li>Original OR/CR status must be confirmed</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: 100%; background: linear-gradient(135deg, var(--success) 0%, #00cc6a 100%);">
+                        <i class="fas fa-check"></i> Complete Sale
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Store
+        let motorcycles = JSON.parse(localStorage.getItem('gg_inventory')) || [];
+        let currentUser = null;
+
+        const authorizedUsers = {
+            "admin": "password123",
+            "staff1": "staffpass1",
+            "staff2": "staffpass2"
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for existing session
+            const session = localStorage.getItem('gg_session');
+            if (session) {
+                currentUser = session;
+                showApp();
+            }
+        });
+
+        // Login Handler
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value.toLowerCase();
+            const password = document.getElementById('password').value;
+
+            if (authorizedUsers[username] === password) {
+                currentUser = username;
+                localStorage.setItem('gg_session', username);
+                showApp();
+            } else {
+                const errorMsg = document.getElementById('errorMsg');
+                errorMsg.classList.add('show');
+                setTimeout(() => errorMsg.classList.remove('show'), 3000);
+            }
+        });
+
+        function showApp() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('appContainer').classList.add('active');
+            document.getElementById('currentUser').textContent = currentUser;
+            updateDashboard();
+            renderInventory();
+        }
+
+        function logout() {
+            localStorage.removeItem('gg_session');
+            currentUser = null;
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('appContainer').classList.remove('active');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        // Dashboard Updates
+        function updateDashboard() {
+            const total = motorcycles.length;
+            const available = motorcycles.filter(b => b.status === 'Available').length;
+            const sold = motorcycles.filter(b => b.status === 'Sold' || b.status === 'Delivered').length;
+            const pendingDocs = motorcycles.filter(b => b.status === 'Sold' && !b.original_received).length;
+
+            document.getElementById('totalBikes').textContent = total;
+            document.getElementById('availableBikes').textContent = available;
+            document.getElementById('soldBikes').textContent = sold;
+            document.getElementById('pendingDocs').textContent = pendingDocs;
+            document.getElementById('urgentCount').textContent = pendingDocs;
+
+            const alertBanner = document.getElementById('alertBanner');
+            alertBanner.style.display = pendingDocs > 0 ? 'flex' : 'none';
+
+            updateFinancials();
+        }
+
+        function updateFinancials() {
+            const available = motorcycles.filter(b => b.status === 'Available');
+            const sold = motorcycles.filter(b => b.status === 'Sold' || b.status === 'Delivered');
+
+            const investment = available.reduce((sum, b) => sum + (parseFloat(b.purchase_price) || 0) + (parseFloat(b.repair_total) || 0), 0);
+            const sales = sold.reduce((sum, b) => sum + (parseFloat(b.sale_price) || 0), 0);
+            
+            let profit = 0;
+            sold.forEach(b => {
+                if (b.sale_price) {
+                    const cost = (parseFloat(b.purchase_price) || 0) + (parseFloat(b.repair_total) || 0) + (parseFloat(b.reg_cost) || 0) + (parseFloat(b.other_costs) || 0);
+                    profit += (parseFloat(b.sale_price) - cost);
+                }
+            });
+
+            document.getElementById('totalInvestment').textContent = '₱' + investment.toLocaleString();
+            document.getElementById('totalSales').textContent = '₱' + sales.toLocaleString();
+            document.getElementById('totalProfit').textContent = '₱' + profit.toLocaleString();
+            document.getElementById('totalProfit').className = 'financial-amount ' + (profit >= 0 ? 'profit' : 'loss');
+        }
+
+        // Render Inventory
+        function renderInventory(filter = '') {
+            const grid = document.getElementById('inventoryGrid');
+            grid.innerHTML = '';
+
+            const filtered = motorcycles.filter(bike => {
+                const searchStr = filter.toUpperCase();
+                return bike.plate.toUpperCase().includes(searchStr) ||
+                       bike.brand.toUpperCase().includes(searchStr) ||
+                       bike.model.toUpperCase().includes(searchStr) ||
+                       (bike.buyer_name && bike.buyer_name.toUpperCase().includes(searchStr));
+            });
+
+            filtered.forEach(bike => {
+                const card = createBikeCard(bike);
+                grid.appendChild(card);
+            });
+        }
+
+        function createBikeCard(bike) {
+            const div = document.createElement('div');
+            div.className = 'bike-card';
+            
+            const statusClass = bike.status === 'Available' ? 'status-available' : 
+                               bike.status === 'Sold' ? 'status-sold' : 'status-delivered';
+            
+            const xeroxStatus = bike.has_xerox ? 'ok' : 'missing';
+            const origStatus = bike.original_received ? (bike.original_released ? 'ok' : 'ok') : 'pending';
+            
+            div.innerHTML = `
+                <div class="bike-header">
+                    <div class="bike-plate">${bike.plate}</div>
+                    <div class="bike-model">${bike.brand} ${bike.model}</div>
+                    <div class="bike-year">${bike.year} · ${bike.color}</div>
+                    <span class="status-badge ${statusClass}">${bike.status}</span>
+                </div>
+                <div class="bike-body">
+                    <div class="bike-info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Engine</span>
+                            <span class="info-value">${bike.engine}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Purchase Price</span>
+                            <span class="info-value">₱${parseFloat(bike.purchase_price).toLocaleString()}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Source</span>
+                            <span class="info-value">${bike.source}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Date</span>
+                            <span class="info-value">${bike.purchase_date}</span>
+                        </div>
+                    </div>
+                    ${bike.status === 'Sold' || bike.status === 'Delivered' ? `
+                    <div style="margin-top: 15px; padding: 15px; background: rgba(255,62,62,0.1); border-radius: 8px; border-left: 3px solid var(--primary);">
+                        <div class="info-label">Buyer</div>
+                        <div style="font-weight: 600; color: var(--text);">${bike.buyer_name}</div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">₱${parseFloat(bike.sale_price).toLocaleString()}</div>
+                    </div>
+                    ` : ''}
+                    <div class="doc-status">
+                        <div class="doc-indicator ${xeroxStatus}">
+                            <i class="fas ${bike.has_xerox ? 'fa-check' : 'fa-times'}"></i>
+                            <span>Xerox</span>
+                        </div>
+                        <div class="doc-indicator ${origStatus}">
+                            <i class="fas ${bike.original_received ? 'fa-check' : 'fa-clock'}"></i>
+                            <span>Original</span>
+                        </div>
+                        ${bike.original_released ? `
+                        <div class="doc-indicator ok">
+                            <i class="fas fa-check-double"></i>
+                            <span>Released</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+                <div class="bike-actions">
+                    ${bike.status === 'Available' ? `
+                    <button class="btn-small" onclick="openSellModal('${bike.id}')">
+                        <i class="fas fa-handshake"></i> Sell
+                    </button>
+                    ` : ''}
+                    <button class="btn-small" onclick="viewDetails('${bike.id}')">
+                        <i class="fas fa-eye"></i> View
+                    </button>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        // Search
+        function searchBikes() {
+            const query = document.getElementById('searchInput').value;
+            renderInventory(query);
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            if (modalId === 'addBikeModal') {
+                document.querySelector('input[name="purchase_date"]').valueAsDate = new Date();
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function openSellModal(bikeId) {
+            document.getElementById('sellBikeId').value = bikeId;
+            document.querySelector('input[name="sale_date"]').valueAsDate = new Date();
+            openModal('sellBikeModal');
+        }
+
+        // Add Bike Form
+        document.getElementById('addBikeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            
+            const bike = {
+                id: Date.now().toString(36) + Math.random().toString(36).substr(2),
+                brand: formData.get('brand'),
+                model: formData.get('model'),
+                year: parseInt(formData.get('year')),
+                color: formData.get('color'),
+                plate: formData.get('plate').toUpperCase(),
+                engine: formData.get('engine').toUpperCase(),
+                chassis: formData.get('chassis').toUpperCase(),
+                purchase_date: formData.get('purchase_date'),
+                purchase_price: parseFloat(formData.get('purchase_price')) || 0,
+                source: formData.get('source'),
+                has_xerox: formData.get('has_xerox') === 'on',
+                xerox_path: null,
+                original_received: formData.get('original_received') === 'on',
+                original_date: formData.get('original_received') === 'on' ? formData.get('purchase_date') : null,
+                original_released: false,
+                status: 'Available',
+                buyer_name: null,
+                buyer_contact: null,
+                buyer_address: null,
+                sale_date: null,
+                sale_price: null,
+                repairs: [],
+                repair_total: 0,
+                reg_cost: 0,
+                other_costs: 0,
+                notes: ''
+            };
+
+            motorcycles.push(bike);
+            saveData();
+            closeModal('addBikeModal');
+            e.target.reset();
+            updateDashboard();
+            renderInventory();
+        });
+
+        // Sell Bike Form
+        document.getElementById('sellBikeForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const bikeId = document.getElementById('sellBikeId').value;
+            
+            const bike = motorcycles.find(b => b.id === bikeId);
+            if (bike) {
+                bike.status = 'Sold';
+                bike.buyer_name = formData.get('buyer_name');
+                bike.buyer_contact = formData.get('buyer_contact');
+                bike.buyer_address = formData.get('buyer_address');
+                bike.sale_date = formData.get('sale_date');
+                bike.sale_price = parseFloat(formData.get('sale_price')) || 0;
+                
+                saveData();
+                closeModal('sellBikeModal');
+                e.target.reset();
+                updateDashboard();
+                renderInventory();
+            }
+        });
+
+        // Navigation
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
+            // Show selected
+            if (section === 'inventory') {
+                document.getElementById('inventorySection').classList.add('active');
+                document.querySelectorAll('.nav-tab')[0].classList.add('active');
+            } else if (section === 'documents') {
+                document.getElementById('documentsSection').classList.add('active');
+                document.querySelectorAll('.nav-tab')[1].classList.add('active');
+                renderDocuments();
+            } else if (section === 'repairs') {
+                document.getElementById('repairsSection').classList.add('active');
+                document.querySelectorAll('.nav-tab')[2].classList.add('active');
+                renderRepairs();
+            } else if (section === 'financial') {
+                document.getElementById('financialSection').classList.add('active');
+                document.querySelectorAll('.nav-tab')[3].classList.add('active');
+            }
+        }
+
+        function renderDocuments() {
+            const grid = document.getElementById('documentsGrid');
+            grid.innerHTML = '';
+            
+            const atBank = motorcycles.filter(b => !b.original_received && b.status !== 'Delivered');
+            const received = motorcycles.filter(b => b.original_received && !b.original_released);
+            
+            [...atBank, ...received].forEach(bike => {
+                const card = document.createElement('div');
+                card.className = 'bike-card';
+                const isUrgent = bike.status === 'Sold' && !bike.original_received;
+                
+                card.innerHTML = `
+                    <div class="bike-header" style="${isUrgent ? 'border-left: 4px solid var(--warning);' : ''}">
+                        <div class="bike-plate">${bike.plate}</div>
+                        <div class="bike-model">${bike.brand} ${bike.model}</div>
+                        <span class="status-badge ${bike.status === 'Sold' ? 'status-sold' : 'status-available'}">${bike.status}</span>
+                    </div>
+                    <div class="bike-body">
+                        <div style="padding: 15px; background: ${isUrgent ? 'rgba(255,170,0,0.1)' : 'var(--dark)'}; border-radius: 8px; margin-bottom: 15px; border: 1px solid ${isUrgent ? 'var(--warning)' : 'var(--border)'};">
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                <i class="fas ${bike.original_received ? 'fa-check-circle' : 'fa-clock'}" style="color: ${bike.original_received ? 'var(--success)' : 'var(--warning)'}; font-size: 1.2rem;"></i>
+                                <span style="font-weight: 600;">${bike.original_received ? 'Received' : 'At Bank'}</span>
+                            </div>
+                            ${!bike.original_received ? `
+                            <button class="btn-small" onclick="markReceived('${bike.id}')" style="width: 100%;">
+                                <i class="fas fa-check"></i> Mark as Received
+                            </button>
+                            ` : !bike.original_released && bike.status === 'Sold' ? `
+                            <button class="btn-small" onclick="markReleased('${bike.id}')" style="width: 100%; border-color: var(--success); color: var(--success);">
+                                <i class="fas fa-hand-holding"></i> Release to Buyer
+                            </button>
+                            ` : ''}
+                        </div>
+                        ${bike.buyer_name ? `
+                        <div class="info-item" style="margin-top: 10px;">
+                            <span class="info-label">Buyer</span>
+                            <span class="info-value">${bike.buyer_name}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function markReceived(bikeId) {
+            const bike = motorcycles.find(b => b.id === bikeId);
+            if (bike) {
+                bike.original_received = true;
+                bike.original_date = new Date().toISOString().split('T')[0];
+                saveData();
+                updateDashboard();
+                renderDocuments();
+            }
+        }
+
+        function markReleased(bikeId) {
+            const bike = motorcycles.find(b => b.id === bikeId);
+            if (bike) {
+                bike.original_released = true;
+                bike.status = 'Delivered';
+                saveData();
+                updateDashboard();
+                renderDocuments();
+                renderInventory();
+            }
+        }
+
+        function renderRepairs() {
+            const tbody = document.getElementById('repairsTable');
+            tbody.innerHTML = '';
+            
+            const allRepairs = [];
+            motorcycles.forEach(bike => {
+                bike.repairs.forEach(repair => {
+                    allRepairs.push({...repair, plate: bike.plate, brand: bike.brand});
+                });
+            });
+            
+            allRepairs.sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            allRepairs.forEach(repair => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${repair.date}</td>
+                    <td><strong>${repair.plate}</strong><br><small style="color: var(--text-muted);">${repair.brand}</small></td>
+                    <td>${repair.description}</td>
+                    <td style="color: var(--primary); font-weight: 600;">₱${parseFloat(repair.cost).toLocaleString()}</td>
+                    <td>${repair.shop}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function viewDetails(bikeId) {
+            const bike = motorcycles.find(b => b.id === bikeId);
+            if (bike) {
+                alert(`Motorcycle Details:
+
+Plate: ${bike.plate}
+Brand: ${bike.brand}
+Model: ${bike.model}
+Year: ${bike.year}
+Color: ${bike.color}
+Engine: ${bike.engine}
+Chassis: ${bike.chassis}
+
+Purchase: ₱${parseFloat(bike.purchase_price).toLocaleString()} on ${bike.purchase_date}
+Source: ${bike.source}
+Status: ${bike.status}
+
+${bike.buyer_name ? `Buyer: ${bike.buyer_name}
+Sale Price: ₱${parseFloat(bike.sale_price).toLocaleString()}` : ''}`);
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('gg_inventory', JSON.stringify(motorcycles));
+        }
+
+        // Close modals on outside click
+        document.querySelectorAll('.modal-overlay').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>'''
